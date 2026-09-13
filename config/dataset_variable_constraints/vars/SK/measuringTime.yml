@@ -1,0 +1,12 @@
+# String matched by regex
+name: "measuringTime"
+description: "Time of the substance concentration measurement."
+type: string
+min_amount: 1
+max_amount: 7
+separator: ";"
+edge_cases: ["nan", "n/a", "na", "XX:XX", "XX.XX", "--", "—"]
+constrains:
+  min_length: 4
+  max_length: 8
+  regex: '^\s*(?:([01]?\d|2[0-3])[:.][0-5]\d(?::[0-5]\d)?)\s*$'

@@ -1,0 +1,7 @@
+name: ""
+description: ""
+type: price
+constrains:
+  currency: "EUR"
+  multiple_values: False
+  separator: ";"

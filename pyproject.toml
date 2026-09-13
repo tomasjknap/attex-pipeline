@@ -1,0 +1,48 @@
+[project]
+name = "attex"
+version = "1.0.0"
+description = "Flexible attribute extraction from criminal court decisions: schema induction, span extraction and value normalization."
+readme = "README.md"
+requires-python = ">=3.13"
+license = { file = "LICENSE" }
+keywords = [
+    "legal information extraction",
+    "large language models",
+    "empirical legal research",
+    "schema induction",
+]
+dependencies = [
+    "google-genai>=2.3.0",
+    "groq>=1.2.0",
+    "numpy>=2.2",
+    "openai>=2.36.0",
+    "pandas>=3.0.3",
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+    "rich>=15.0.0",
+]
+
+[project.urls]
+Repository = "https://github.com/tomasjknap/attex-pipeline"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.13",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Flat src layout: the pipeline stages are top-level modules and the shared code lives in the
+# ``lib`` namespace package, all importing each other as ``from lib.x import …``.
+# ``sources = ["src"]`` strips the ``src/`` prefix so those exact names stay importable.
+[tool.hatch.build.targets.wheel]
+sources = ["src"]
+include = [
+    "src/lib",
+    "src/a_attribute_explorer.py",
+    "src/c_semantic_normalizer.py",
+    "src/d_dataset_builder.py",
+    "src/e_format_validator.py",
+]

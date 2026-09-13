@@ -1,0 +1,12 @@
+# Integer number
+name: ""
+description: ""
+type: integer
+min_amount: 1
+max_amount: 1
+separator: ";"
+edge_cases: ["nan"]
+constraints:
+  min: 0
+  max: 5
+

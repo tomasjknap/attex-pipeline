@@ -1,0 +1,11 @@
+# DATE (C)
+name: "dateOfOffense"
+description: "Date of the criminal offense (calendar date in the format YYYY-MM-DD)."
+type: date
+min_amount: 1
+max_amount: 1
+separator: ";"
+edge_cases: ["XX.XX.XXXX"]
+constraints:
+  earliest: 1990-01-01
+  latest:  2025-10-10

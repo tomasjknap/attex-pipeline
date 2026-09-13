@@ -1,0 +1,10 @@
+# Subset of strings from defined sets
+name: "typeOfRoad"
+description: "Type of the road where the criminal offense was committed."
+type: subset
+min_amount: 1
+max_amount: 2
+separator: ";"
+constrains:
+  allowed_values: [urban, class_I, class_II, class_III, motorway, other]
+  unique: False

@@ -1,0 +1,10 @@
+name: "avgAmountUsed"
+description: "Individual values measured in measuring(s)"
+type: float
+min_amount: 1
+max_amount: 10
+edge_cases: ["nan"]
+separator: ";"
+constraints:
+  min: 0
+  max: 5

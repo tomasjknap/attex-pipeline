@@ -1,0 +1,12 @@
+# String matched by regex
+name: "measuringDevice"
+description: "Device used to measure the substance concentration."
+type: string
+min_amount: 1
+max_amount: 5
+separator: ";"
+edge_cases: ["nan","n/a","na","XXXX"]
+constrains:
+  min_length: 3
+  max_length: 200
+  regex: '(?i)(?=.*(?:analyz[áa]tor(?:om)?\s*dych[u]?|alco\s*test|alcotest|alco\s*quant|alcoquant|dr[äa]ger))'

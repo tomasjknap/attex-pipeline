@@ -1,0 +1,78 @@
+{
+  "dateOfOffense": {
+    "description": "Date when the offender committed the prohibited activity. If multiple dates are mentioned, extract the first one.",
+    "cardinality": "single",
+    "format": "DD.MM.YYYY or DD.MM.YYYY-DD.MM.YYYY"
+  },
+  "timeOfOffense": {
+    "description": "Time when the offender committed the prohibited activity. If multiple times are mentioned, extract the first one.",
+    "cardinality": "single",
+    "format": "HH:MM or HH:MM-HH:MM"
+  },
+  "placeOfOffense": {
+    "description": "Location where the offender was stopped and checked. If multiple locations are mentioned, select the first one.",
+    "cardinality": "single",
+    "categories": {
+      "MOTORWAY_OR_FIRST_CLASS_ROAD": "Motorway or first-class road (typically marked as I/<number>)",
+      "WITHIN_CITY_OR_VILLAGE": "Location within a city, village, municipality, cadastral area, or similar settlement",
+      "ELSEWHERE": "Any other location"
+    }
+  },
+  "offenseMunicipality": {
+    "description": "Municipality or city where the offender was stopped and checked. If multiple municipalities are mentioned, extract the first one. Return only the municipality name in nominative form, without street names, road names, or administrative subdivisions.",
+    "cardinality": "single",
+    "format": "Municipality/city name"
+  },
+  "vehicleType": {
+    "description": "Type of vehicle driven by the offender. If multiple vehicle types are mentioned, select the first one.",
+    "cardinality": "single",
+    "categories": {
+      "CAR": "Passenger car",
+      "VAN": "Van or light commercial vehicle",
+      "TRUCK": "Truck or heavy goods vehicle",
+      "BUS": "Bus",
+      "MOTORCYCLE": "Motorcycle",
+      "OTHER": "Other motor vehicle or vehicle type that cannot be reliably classified"
+    }
+  },
+  "additionalTrafficViolation": {
+    "description": "Additional traffic violations or road traffic rule breaches committed in connection with the offense.",
+    "cardinality": "single",
+    "categories": {
+      "VEHICLE_CONDITION": "Violation related to the technical condition of the vehicle",
+      "ROAD_RULE_VIOLATION": "Violation of road traffic rules",
+      "FAILURE_TO_STOP_OR_EVADE": "Failure to stop, fleeing, or evading a traffic control",
+      "ALCOHOL_RELATED": "Alcohol-related violation or relevant breath/alcohol test issue"
+    }
+  },
+  "issuingAuthorityType": {
+    "description": "Type of authority that imposed the driving ban or other restriction. If multiple authorities are mentioned, select the first one.",
+    "cardinality": "single",
+    "categories": {
+      "COURT": "Court",
+      "POLICE_AUTHORITY": "Police authority, district police directorate, traffic inspectorate, or other police body",
+      "ADMINISTRATIVE_AUTHORITY": "Other administrative authority",
+      "OTHER": "Other authority"
+    }
+  },
+  "issuingAuthorityLocation": {
+    "description": "Municipality or city where the authority that issued the original decision was located. If multiple locations are mentioned, extract the first one. Return only the municipality name in nominative form without administrative subdivisions.",
+    "cardinality": "single",
+    "format": "Municipality/city name"
+  },
+  "decisionIssueDate": {
+    "description": "Date when the decision imposing the driving ban or other restriction was issued. If multiple decision dates are mentioned, extract the first one.",
+    "cardinality": "single",
+    "format": "DD.MM.YYYY"
+  },
+  "decisionEffectiveDate": {
+    "description": "Date when the decision became legally effective or entered into force. If multiple relevant dates are mentioned, extract the first relevant effective date.",
+    "cardinality": "single",
+    "format": "DD.MM.YYYY"
+  },
+  "drivingBanDuration": {
+    "description": "Duration of the driving ban. If multiple bans are mentioned, select the one with the latest expiration date. Preserve the original unit (e.g. months, years) and do not convert units. If only the end date is available, return the end date. If a range is given, return only the end date.",
+    "cardinality": "single",
+    "format": "English duration in lowercase (e.g. '36 months', '3 years'), DD.MM.YYYY for end date (if duration not available), 'lifetime' for lifetime bans"
+  }
+}

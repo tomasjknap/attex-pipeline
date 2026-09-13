@@ -1,0 +1,12 @@
+# Floating point number
+name: ""
+description: ""
+type: float
+min_amount: 1
+max_amount: 10
+separator: ";"
+edge_cases: ["XX.X", "nan"]
+constraints:
+  min: 0
+  max: 5
+

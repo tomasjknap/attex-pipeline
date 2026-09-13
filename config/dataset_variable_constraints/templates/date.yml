@@ -1,0 +1,11 @@
+# DATE (C)
+name: ""
+description: ""
+type: date
+min_amount: 1
+max_amount: 1
+separator: ";"
+edge_cases: []
+constraints:
+  earliest: YY-MM-DD  # Optional
+  latests:  YY-MM-DD  # Optional

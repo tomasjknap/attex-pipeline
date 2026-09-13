@@ -1,0 +1,12 @@
+# String matched by regex
+name: ""
+description: ""
+type: string
+min_amount: 1
+max_amount: 10
+separator: ";"
+edge_cases: []
+constrains:
+  min_length: 0
+  max_length: 10000
+  regex: ".*"

@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+
+# Pipeline run artefacts
+.checkpoints/
+logs/
+*.log
+*.jsonl
+
+# Environment
+.env
+.env.local
+
+# Editor and OS
+.DS_Store
+.idea/
+.vscode/
+*.sw?

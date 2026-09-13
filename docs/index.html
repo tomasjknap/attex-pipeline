@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Companion code and data for 'Unlocking Criminal Court Decisions: Flexible Information Extraction for Empirical Legal Research' - a pipeline for attribute exploration, span extraction and value normalization over criminal court judgments.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Unlocking Criminal Court Decisions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;450;500;600&family=Spectral:ital,wght@0,500;0,600;1,400&display=swap">
+</head>
+<body>
+<style>
+  :root {
+    --paper:      #f3f4f2;
+    --surface:    #fbfbfa;
+    --surface-2:  #eceeea;
+    --ink:        #171b19;
+    --ink-soft:   #3d4643;
+    --muted:      #6b756f;
+    --rule:       #d9dcd6;
+    --rule-firm:  #b9bfb7;
+    --accent:     #0e6a63;
+    --accent-ink: #0b4f4a;
+    --on-accent:  #f4fbfa;
+    --hl-a:       0.20;
+    --hl-line:    0.55;
+    --shadow:     0 1px 2px rgba(23,27,25,.06), 0 8px 24px -16px rgba(23,27,25,.35);
+
+    --h-date: 352; --h-drive: 272; --h-vehicle: 92; --h-method: 205;
+    --h-device: 38; --h-level: 12; --h-testtime: 232;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #14171a;
+      --surface:    #1b1f22;
+      --surface-2:  #23282b;
+      --ink:        #e8ebe7;
+      --ink-soft:   #c3c9c4;
+      --muted:      #8e9993;
+      --rule:       #2e3438;
+      --rule-firm:  #454d51;
+      --accent:     #5cc2b8;
+      --accent-ink: #8fd8d0;
+      --on-accent:  #0d1817;
+      --hl-a:       0.30;
+      --hl-line:    0.75;
+      --shadow:     0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #14171a;
+    --surface:    #1b1f22;
+    --surface-2:  #23282b;
+    --ink:        #e8ebe7;
+    --ink-soft:   #c3c9c4;
+    --muted:      #8e9993;
+    --rule:       #2e3438;
+    --rule-firm:  #454d51;
+    --accent:     #5cc2b8;
+    --accent-ink: #8fd8d0;
+    --on-accent:  #0d1817;
+    --hl-a:       0.30;
+    --hl-line:    0.75;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-inline: 24px;
+  }
+
+  a { color: var(--accent-ink); text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  .eyebrow {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  h1, h2, h3 { font-family: Spectral, ui-serif, Georgia, serif; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(30px, 5.4vw, 46px); font-weight: 600; line-height: 1.13; letter-spacing: -.015em; }
+  h2 { font-size: clamp(21px, 3vw, 26px); font-weight: 600; line-height: 1.25; }
+  h3 { font-size: 16.5px; font-weight: 600; }
+
+  p { margin: 0; max-width: 66ch; }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar .wrap {
+    display: flex; align-items: center; gap: 20px;
+    height: 48px;
+    justify-content: space-between;
+  }
+  .mark {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px; font-weight: 500; letter-spacing: .04em;
+    color: var(--ink);
+  }
+  .mark span { color: var(--accent); }
+  .topnav { display: flex; gap: 18px; font-size: 13.5px; }
+  .topnav a { color: var(--muted); text-decoration: none; }
+  .topnav a:hover { color: var(--ink); }
+  @media (max-width: 620px) { .topnav a.opt { display: none; } }
+
+  /* ---------- hero ---------- */
+  header.hero { padding-block: 56px 40px; }
+  .hero-inner { display: flex; flex-direction: column; gap: 20px; }
+  .subtitle {
+    font-family: Spectral, ui-serif, Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 2.4vw, 20px);
+    color: var(--ink-soft);
+    max-width: 60ch;
+  }
+  .authors { font-size: 14px; color: var(--muted); max-width: 70ch; line-height: 1.75; }
+  .authors strong { color: var(--ink-soft); font-weight: 500; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 14px; font-weight: 500;
+    border-radius: 3px;
+    text-decoration: none;
+    border: 1px solid var(--rule-firm);
+    color: var(--ink);
+    background: var(--surface);
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .btn.primary:hover { background: var(--accent-ink); border-color: var(--accent-ink); color: var(--on-accent); }
+
+  /* ---------- sections ---------- */
+  section { padding-block: 44px; border-top: 1px solid var(--rule); }
+  .sec-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+
+  /* ---------- annotated specimen ---------- */
+  .specimen {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .specimen p {
+    font-family: Spectral, ui-serif, Georgia, serif;
+    font-size: 17px;
+    line-height: 2.05;
+    max-width: 64ch;
+    color: var(--ink);
+  }
+  mark {
+    background: hsl(var(--h) 70% 55% / var(--hl-a));
+    box-shadow: inset 0 -2px 0 hsl(var(--h) 65% 45% / var(--hl-line));
+    color: inherit;
+    padding: 1px 3px;
+    border-radius: 2px;
+  }
+  .m-date    { --h: var(--h-date); }
+  .m-drive   { --h: var(--h-drive); }
+  .m-vehicle { --h: var(--h-vehicle); }
+  .m-method  { --h: var(--h-method); }
+  .m-device  { --h: var(--h-device); }
+  .m-level   { --h: var(--h-level); }
+  .m-time    { --h: var(--h-testtime); }
+  .ellip { color: var(--muted); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px 18px;
+    margin-top: 20px; padding-top: 18px;
+    border-top: 1px dashed var(--rule);
+    font-size: 12.5px; color: var(--muted);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch {
+    width: 11px; height: 11px; border-radius: 2px; flex: none;
+    background: hsl(var(--h) 70% 55% / .8);
+  }
+  .caption { font-size: 13px; color: var(--muted); margin-top: 14px; max-width: 66ch; }
+
+  /* ---------- pipeline ---------- */
+  .band {
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .band .t { font-size: 14px; font-weight: 600; }
+  .band .s { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11.5px; color: var(--muted); }
+  .band.cycle { border-style: dashed; background: transparent; }
+
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-block: 14px;
+  }
+  @media (max-width: 680px) { .stages { grid-template-columns: 1fr; } }
+
+  .stage {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 2px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .stage .num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; font-weight: 500; color: var(--accent-ink); letter-spacing: .08em;
+  }
+  .stage p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+  .stage code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px; color: var(--muted);
+    margin-top: auto; padding-top: 8px;
+    border-top: 1px solid var(--rule);
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- tables ---------- */
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 420px; }
+  caption { text-align: left; font-size: 13px; color: var(--muted); padding-bottom: 10px; max-width: 66ch; }
+  th, td { padding: 9px 12px; border-bottom: 1px solid var(--rule); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  thead th {
+    font-size: 11.5px; text-transform: uppercase; letter-spacing: .09em;
+    color: var(--muted); font-weight: 600;
+    border-bottom: 1px solid var(--rule-firm);
+  }
+  td.num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  tr.total td { font-weight: 600; border-bottom: none; }
+  .delta { color: var(--accent-ink); font-variant-numeric: tabular-nums; }
+
+  /* ---------- code ---------- */
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--accent);
+    border-radius: 3px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0;
+  }
+  pre code, p code, li code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 13px;
+  }
+  p code, li code, td code {
+    background: var(--surface-2);
+    padding: 1px 5px; border-radius: 3px;
+    font-size: 12.5px;
+  }
+
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .note {
+    border-left: 2px solid var(--rule-firm);
+    padding-left: 14px;
+  }
+  .note h3 { margin-bottom: 4px; }
+  .note p { font-size: 13.5px; color: var(--ink-soft); }
+
+  ul.plain { margin: 0; padding-left: 18px; font-size: 14.5px; color: var(--ink-soft); }
+  ul.plain li { margin-bottom: 5px; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-block: 32px 56px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer .wrap { display: flex; flex-direction: column; gap: 10px; }
+</style>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="mark">Att<span>Ex</span></span>
+    <nav class="topnav">
+      <a href="#specimen" class="opt">Example</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#results">Results</a>
+      <a href="#start">Get started</a>
+      <a href="#cite" class="opt">Cite</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">JURIX 2026 · Companion code &amp; data</p>
+    <h1>Unlocking Criminal Court Decisions</h1>
+    <p class="subtitle">Flexible information extraction for empirical legal research — building the attribute schema and the extraction rules <em>through</em> the corpus, not before it.</p>
+    <p class="authors">
+      <strong>Tomáš Knap</strong>, <strong>Ivana Kvapilíková</strong>, <strong>Jan Černý</strong>, <strong>Klára Bendová</strong>,
+      <strong>Jaromír Šavelka</strong>, <strong>Vojtěch Pour</strong> and <strong>Jakub Drápal</strong><br>
+      Faculty of Law and Faculty of Mathematics and Physics, Charles University · School of Computer Science, Carnegie Mellon University
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="https://github.com/tomasjknap/attex-pipeline">Code &amp; data on GitHub</a>
+      <a class="btn" href="#start">Run the pipeline</a>
+      <a class="btn" href="#cite">Cite</a>
+    </div>
+  </div>
+</header>
+
+<section id="specimen">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The unit of analysis</p>
+      <h2>One factual sentence, seven attributes</h2>
+      <p>Criminal verdicts describe the conduct a defendant was found guilty of in a single passage of free text — the <em>factual sentence</em>. Everything a quantitative legal researcher wants is in there, unstructured.</p>
+    </div>
+
+    <div class="specimen">
+      <p>
+        On <mark class="m-date">24 October 2021</mark> at <mark class="m-drive">22:05</mark>, after consuming alcoholic
+        beverages, he drove a <mark class="m-vehicle">Škoda Felicia passenger car</mark> <span class="ellip">[…]</span>
+        and was stopped and checked by a police patrol <span class="ellip">[…]</span>, and subsequently underwent
+        <mark class="m-method">breath tests</mark> <span class="ellip">[…]</span>, with an
+        <mark class="m-device">Alcotest 7510</mark> device <span class="ellip">[…]</span> recording
+        <mark class="m-level">1.27 mg/l</mark> of alcohol in his breath on <mark class="m-date">24 October 2021</mark>
+        at <mark class="m-time">22:08:21</mark>, and a repeated <mark class="m-method">breath test</mark> using
+        <mark class="m-device">the same device</mark> <span class="ellip">[…]</span> recording
+        <mark class="m-level">1.09 mg/l</mark> of alcohol in his breath on <mark class="m-date">24 October 2021</mark>
+        at <mark class="m-time">22:42:11</mark>, and he did not request a blood sample to be taken.
+      </p>
+      <div class="legend">
+        <span><i class="swatch" style="--h: var(--h-date)"></i>Date</span>
+        <span><i class="swatch" style="--h: var(--h-drive)"></i>Driving time</span>
+        <span><i class="swatch" style="--h: var(--h-vehicle)"></i>Vehicle</span>
+        <span><i class="swatch" style="--h: var(--h-method)"></i>Test method</span>
+        <span><i class="swatch" style="--h: var(--h-device)"></i>Device</span>
+        <span><i class="swatch" style="--h: var(--h-level)"></i>Alcohol level</span>
+        <span><i class="swatch" style="--h: var(--h-testtime)"></i>Test time</span>
+      </div>
+    </div>
+    <p class="caption">English translation of a shortened Slovak factual sentence, omissions marked […]. A single sentence
+      may hold several events and measurements: structuring it requires separating the time of driving from the test
+      times and pairing each measured value with the test that produced it.</p>
+  </div>
+</section>
+
+<section id="abstract">
+  <div class="wrap stack">
+    <div class="sec-head">
+      <p class="eyebrow">Abstract</p>
+      <h2>Attributes that cannot be specified in advance</h2>
+    </div>
+    <p>Criminal verdicts contain descriptions of criminal behavior that could support quantitative legal research, but
+      structuring them requires attributes and extraction rules that cannot always be fully specified in advance. We
+      present a pipeline combining attribute exploration, extraction of supporting text spans, and value normalization,
+      guided by an annotation manual that legal experts can refine.</p>
+    <p>Experiments on two traffic-related offense categories reveal difficulties shared by human annotators and LLMs
+      when instructions are underspecified. For driving under the influence, revising the manual was associated with an
+      increase in overall class accuracy from 51.8% to 69.6% and higher human agreement. Consistent LLM outputs did not
+      guarantee agreement with reference annotations. These findings support iterative dataset creation in which expert
+      review informs both verification of extracted values and refinement of extraction rules.</p>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Pipeline</p>
+      <h2>Three stages, one manual</h2>
+      <p>The annotation manual is the shared specification: the same document instructs the human annotators and
+        configures the extraction prompts. Researchers revise it, and the accepted manual regenerates annotations across
+        the whole corpus.</p>
+    </div>
+
+    <div class="band">
+      <div class="t">Annotation manual = extraction schema</div>
+      <div class="s">attribute ID · description · cardinality · value format · category labels</div>
+    </div>
+
+    <div class="stages">
+      <div class="stage">
+        <div class="num">STAGE 1</div>
+        <h3>Attribute exploration</h3>
+        <p>Statements are processed in fixed-size batches against the current schema. Residual information not covered by
+          existing attributes goes to an LLM, which proposes candidates for subsequent batches. The researcher decides
+          which are retained.</p>
+        <code>src/a_attribute_explorer.py</code>
+      </div>
+      <div class="stage">
+        <div class="num">STAGE 2</div>
+        <h3>Span extraction</h3>
+        <p>Evidence is extracted as copied text, aligned with the original statement, then wrapped in XML-like tags with
+          unique identifiers. Later stages reference the identifiers instead of relocating the evidence.</p>
+        <code>src/d_dataset_builder.py</code>
+      </div>
+      <div class="stage">
+        <div class="num">STAGE 3</div>
+        <h3>Value normalization</h3>
+        <p>Value types, output formats, normalization rules and — where appropriate — categories are derived from the
+          values actually observed in the corpus, preserving information while minimizing interpretation.</p>
+        <code>src/c_semantic_normalizer.py</code>
+      </div>
+    </div>
+
+    <div class="band cycle">
+      <div class="t">Human-in-the-loop revision cycle</div>
+      <div class="s">LLM drafts a new manual · revision requested in natural language · researcher inspects values and supporting spans</div>
+    </div>
+
+    <p class="caption">Spans are written back as <code>&lt;span id="s1"&gt;Škoda Octavia&lt;/span&gt;</code>, so every
+      extracted value stays traceable to the text that supports it. A fourth script,
+      <code>src/e_format_validator.py</code>, checks a finished dataset against declared variable constraints.</p>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap stack">
+    <div class="sec-head">
+      <p class="eyebrow">Results</p>
+      <h2>Specification quality is the lever</h2>
+      <p>Comparing two versions of the DUI annotation manual: Schema 1 contained the initial instructions, Schema 2
+        incorporated revisions informed by the first annotation and extraction results.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Automatic extraction accuracy against curated reference annotations, <code>gpt-5.6-terra</code> over the
+          same 200 DUI factual sentences. Span accuracy applies to all attributes, class accuracy to the seven
+          categorized ones.</caption>
+        <thead>
+          <tr><th scope="col">Measure</th><th scope="col">Schema 1</th><th scope="col">Schema 2</th><th scope="col">Change</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Span accuracy, overall</td><td class="num">0.552</td><td class="num">0.639</td><td class="num delta">+0.087</td></tr>
+          <tr><td>Class accuracy, overall</td><td class="num">0.518</td><td class="num">0.696</td><td class="num delta">+0.178</td></tr>
+          <tr><td>Class accuracy, <code>substanceUsed</code></td><td class="num">0.399</td><td class="num">0.923</td><td class="num delta">+0.524</td></tr>
+          <tr class="total"><td>Class accuracy, <code>licenseStatus</code></td><td class="num">0.282</td><td class="num">0.655</td><td class="num delta">+0.373</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <h3>Induction batch size controls granularity</h3>
+        <p>On the same 200 statements, pooling residuals in batches of 100 produced 39 attributes — a third of them
+          populated in under 5% of sentences. Batches of 200 produced 30 attributes, with 13% under that threshold.</p>
+      </div>
+      <div class="note">
+        <h3>Rarity is not a pruning rule</h3>
+        <p><code>activeDrivingBan</code> appears in 3.5% of statements and <code>attemptedBribeOrCorruption</code> in
+          0.5% — both can still matter to the research question. The induced schema is a set of candidates for expert
+          review, not a finished specification.</p>
+      </div>
+      <div class="note">
+        <h3>Repeatability is not correctness</h3>
+        <p>Repeated runs of the same model agreed with each other far more than with other models or with curated
+          annotations. Where humans, models and gold labels all disagree — as for <code>reasonForCheck</code> — the
+          category itself needs a more explicit decision rule.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap stack">
+    <div class="sec-head">
+      <p class="eyebrow">Get started</p>
+      <h2>Induce a schema in one command</h2>
+      <p>Python 3.13 and <a href="https://docs.astral.sh/uv/">uv</a>. The provider key is read from the environment —
+        <code>OPENAI_API_KEY</code>, <code>GENAI_API_KEY</code>, <code>GROQ_API_KEY</code> or <code>UFAL_API_KEY</code>.</p>
+    </div>
+
+<pre><code>git clone https://github.com/tomasjknap/attex-pipeline
+cd attex-pipeline
+uv sync
+
+uv run src/a_attribute_explorer.py \
+  --input data/dui_dev_sample.csv \
+  --output dui_schema_induced.json \
+  --initial-attributes data/initial_attributes.json \
+  --provider openai --model gpt-5.6-terra \
+  --schema-update-batch-size 100 \
+  --population-threshold 0.85</code></pre>
+
+    <p class="caption"><code>--schema-update-batch-size</code> is the induction batch size <em>N</em> from the table
+      above: smaller batches see less evidence per induction call and propose more case-specific attributes.</p>
+  </div>
+</section>
+
+<section id="data">
+  <div class="wrap stack">
+    <div class="sec-head">
+      <p class="eyebrow">Data &amp; scope</p>
+      <h2>What the repository contains</h2>
+    </div>
+    <ul class="plain">
+      <li>Attribute schemas and the annotation manual for both offence categories — driving under the influence (DUI) and driving despite an imposed ban (DDB).</li>
+      <li>The 200 sampled factual sentences per category used in the experiments, plus a DUI development sample.</li>
+      <li>Extracted spans and values for DDB, the input to value normalization.</li>
+      <li>Prompt templates for every stage and the YAML variable constraints used by the format validator.</li>
+    </ul>
+    <p>Factual sentences are passages from Slovak criminal court judgments issued between 2018 and 2022. Experiments are
+      restricted to single-offence judgments, which account for 68% of the 126,795 judgments in the source collection.</p>
+    <p class="caption">Not included: the full judgment corpus, the annotation interface used to collect the human
+      reference annotations, and scripts recomputing the agreement figures reported in the paper.</p>
+  </div>
+</section>
+
+<section id="cite">
+  <div class="wrap stack">
+    <div class="sec-head">
+      <p class="eyebrow">Citation</p>
+      <h2>Cite the paper</h2>
+    </div>
+<pre><code>@inproceedings{knap2026unlocking,
+  title     = {Unlocking Criminal Court Decisions: Flexible Information
+               Extraction for Empirical Legal Research},
+  author    = {Knap, Tom{\'a}{\v s} and Kvapil{\'i}kov{\'a}, Ivana and
+               {\v C}ern{\'y}, Jan and Bendov{\'a}, Kl{\'a}ra and
+               {\v S}avelka, Jarom{\'i}r and Pour, Vojt{\v e}ch and
+               Dr{\'a}pal, Jakub},
+  booktitle = {Legal Knowledge and Information Systems: JURIX 2026},
+  series    = {Frontiers in Artificial Intelligence and Applications},
+  publisher = {IOS Press},
+  year      = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>Code released under the MIT License · data under CC BY 4.0 · underlying judgments are public documents of the Slovak Republic.</div>
+    <div>Correspondence: <a href="mailto:tomas.knap@prf.cuni.cz">tomas.knap@prf.cuni.cz</a> · <a href="https://github.com/tomasjknap/attex-pipeline">github.com/tomasjknap/attex-pipeline</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

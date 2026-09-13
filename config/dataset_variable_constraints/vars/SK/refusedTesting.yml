@@ -1,0 +1,8 @@
+# Boolean value
+name: "refusedTesting"
+description: "If the driver refused to get tested on drugs"
+type: bool
+min_amount: 1
+max_amount: 1
+separator: ";"
+constraints:

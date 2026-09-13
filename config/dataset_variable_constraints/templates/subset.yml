@@ -1,0 +1,10 @@
+# Subset of strings from defined sets
+name: ""
+description: ""
+type: subset
+min_amount: 1
+max_amount: 10
+separator: ";"
+constrains:
+  allowed_values: [a,b,c,d]
+  unique: False

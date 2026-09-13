@@ -1,0 +1,12 @@
+# String matched by regex
+name: "timeOfOffence"
+description: "Time of the criminal offense (in the format HH:MM)."
+type: string
+min_amount: 1
+max_amount: 2
+separator: ";"
+edge_cases: ["XX:XX"]
+constrains:
+  min_length: 4
+  max_length: 15
+  regex: "^(?:pred\\s+)?(?:(?:[01]\\d|2[0-3])[:\\.]?[0-5]\\d)$"

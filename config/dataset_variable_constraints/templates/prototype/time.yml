@@ -1,0 +1,7 @@
+name: ""
+description: ""
+type: time
+constrain:
+  max: 1000
+  multiple_values: False
+  separator: ";"

@@ -1,0 +1,133 @@
+{
+    "dateOfOffense": {
+        "description": "Date when the offense occurred",
+        "cardinality": "single",
+        "format": "DD.MM.YYYY"
+    },
+    "timeOfOffense": {
+        "description": "Time when the offense occurred",
+        "cardinality": "single",
+        "format": "HH:MM"
+    },
+    "geographicalDetails": {
+        "description": "City, municipality, direction, or geographic place used to show the offense on a map",
+        "cardinality": "single"
+    },
+    "placeOfOffense": {
+        "description": "Name of the city/municipality where the offense occurred",
+        "cardinality": "single",
+        "format": "name of city/municipality in nominative"
+    },
+    "typeOfRoad": {
+        "description": "Type of road where the offense occurred",
+        "cardinality": "single",
+        "categories": {
+            "URBAN": "Road within a municipality or urban area",
+            "MOTORWAY": "Motorway / highway",
+            "CLASS_I": "First class road",
+            "CLASS_II": "Second class road",
+            "CLASS_III": "Third class road",
+            "OTHER": "Other type of road"
+        }
+    },
+    "placeDetails": {
+        "description": "More specific description of the place, e.g. parking lot or intersection",
+        "cardinality": "single"
+    },
+    "substanceUsed": {
+        "description": "Drug or substance detected",
+        "cardinality": "multiple",
+        "categories": {
+            "ALCOHOL": "Alcohol or ethanol consumption",
+            "CANNABIS": "Cannabis or marijuana",
+            "METHAMPHETAMINE": "Methamphetamine (pervitin)",
+            "AMPHETAMINE": "Amphetamine",
+            "COCAINE": "Cocaine",
+            "MDMA": "MDMA or ecstasy",
+            "HASHISH": "Hashish (cannabis resin)",
+            "MORPHINE": "Morphine",
+            "BARBITURATE": "Barbiturates",
+            "BENZODIAZEPINE": "Benzodiazepines",
+            "METHADONE": "Methadone",
+            "HEROIN": "Heroin",
+            "OTHER": "Any other substance not listed above"
+        }
+    },
+    "amountUsed": {
+        "description": "The amount of drug or substance detected",
+        "cardinality": "multiple",
+        "format": "[float] [unit]"
+    },
+    "measuringMethod": {
+        "description": "Type of measurement taken",
+        "cardinality": "multiple",
+        "categories": {
+            "BREATH": "Measurement using a breathalyzer",
+            "BLOOD": "Measurement using a blood sample",
+            "URINE": "Measurement using a urine sample",
+            "OTHER": "Other measurement method"
+        }
+    },
+    "measuringDevice": {
+        "description": "Measuring device used for testing",
+        "cardinality": "single"
+    },
+    "measuringTime": {
+        "description": "Time of measurement",
+        "cardinality": "multiple",
+        "format": "HH:MM"
+    },
+    "refusedTesting": {
+        "description": "Information that the driver refused testing",
+        "cardinality": "single",
+        "categories": {
+            "TRUE": "Driver refused to take the drug exam",
+            "FALSE": "Driver did not refuse to take the drug exam"
+        }
+    },
+    "vehicleType": {
+        "description": "Type of vehicle involved in the offense",
+        "cardinality": "single",
+        "categories": {
+            "CAR": "Passenger car",
+            "VAN": "Van or light commercial vehicle",
+            "TRUCK": "Truck or heavy goods vehicle",
+            "BUS": "Bus",
+            "MOTORCYCLE": "Motorcycle",
+            "OTHER": "Other type of vehicle"
+        }
+    },
+    "vehicleModel": {
+        "description": "Vehicle brand and model involved in the offense, e.g. Skoda Octavia, or capital letters if only those are provided",
+        "cardinality": "single"
+    },
+    "licenseStatus": {
+        "description": "Validity status of the driver's license",
+        "cardinality": "single",
+        "categories": {
+            "VALID": "Driver had a valid license",
+            "BANNED": "Driving despite a ban or revoked license",
+            "NONE": "License never issued"
+        }
+    },
+    "checkedBy": {
+        "description": "Who conducted the inspection or check",
+        "cardinality": "single"
+    },
+    "reasonForCheck": {
+        "description": "Reason why the inspection decided to stop the car",
+        "cardinality": "single",
+        "categories": {
+            "TRAFFIC_ACCIDENT": "Check initiated due to a traffic accident",
+            "SPEEDING": "Vehicle stopped due to speeding",
+            "TRAFFIC_VIOLATION": "Other traffic violation",
+            "SUSPECTED_INTOXICATION": "Police suspected intoxication",
+            "TRAFFIC_CHECK": "Routine traffic control",
+            "OTHER": "Other reason for the check"
+        }
+    },
+    "lawBroken": {
+        "description": "Reference to a law that was broken by the offense",
+        "cardinality": "single"
+    }
+}

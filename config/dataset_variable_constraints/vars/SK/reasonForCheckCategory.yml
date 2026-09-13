@@ -1,0 +1,10 @@
+# Subset of strings from defined sets
+name: "reasonForCheckCategory"
+description: "Category of the reason for the check."
+type: subset
+min_amount: 1
+max_amount: 2
+separator: ";"
+constrains:
+  allowed_values: [traffic_check, suspected_intoxication, traffic_violation, traffic_accident, speeding, other]
+  unique: False

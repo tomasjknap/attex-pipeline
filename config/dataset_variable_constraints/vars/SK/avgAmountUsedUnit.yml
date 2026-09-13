@@ -1,0 +1,9 @@
+name: "avgAmountUsedUnit"
+description: "Unit in which is average amount of drug measured"
+type: subset
+min_amount: 1
+max_amount: 1
+separator: ";"
+constrains:
+  allowed_values: ["mg/l","ng/ml", "‰"]
+  unique: False

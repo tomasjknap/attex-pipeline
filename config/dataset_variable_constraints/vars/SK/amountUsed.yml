@@ -1,0 +1,19 @@
+name: "amountUsed"
+description: "Amount of drug measured in driver"
+type: unit
+min_amount: 1
+max_amount: 10
+separator: ";"
+edge_cases: ["X.XX"]
+constraints:
+  units:
+    - unit: "mg/l"
+      min: 0
+      max: 5
+    - unit: "ng/ml"
+      min: 0
+      max: 5000
+    - unit: "µg/ml"
+      min: 0
+      max: 5
+

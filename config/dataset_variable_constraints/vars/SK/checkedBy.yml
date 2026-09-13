@@ -1,0 +1,12 @@
+# String matched by regex
+name: "checkedBy"
+description: "Specification of who did the the road check"
+type: string
+min_amount: 1
+max_amount: 2
+separator: ";"
+edge_cases: ["nan"]
+constrains:
+  min_length: 2
+  max_length: 200
+  regex: "^(?=.*(?:polic|polí|Polic|hliad|PZ|SBS|ODI|OO|OR|PMJ|KR|MsP|ŽP|PCO|Pohotovostn|železničn|oddelenie|inšpektorát|KDI|coln|celn))\\s*(hliadkou|policajtmi|policajnou hliadkou)?\\s*[A-Za-zÀ-ž0-9 .,''\\-–()/]{2,150}\\s*(Policajného zboru|PZ)?(\\s*v\\s*[A-Za-zÀ-ž .\\-–]+)?\\s*(;\\s*(hliadkou|policajtmi|policajnou hliadkou)?\\s*[A-Za-zÀ-ž0-9 .,''\\-–()/]{2,150}\\s*(Policajného zboru|PZ)?(\\s*v\\s*[A-Za-zÀ-ž .\\-–]+)?\\s*)?$"

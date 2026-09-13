@@ -1,0 +1,17 @@
+# Physical unit in format "float unit"
+name: ""
+description: ""
+type: unit
+min_amount: 1
+max_amount: 10
+separator: ";"
+edge_cases: []
+constraints:
+  units:
+    - unit: "mg/l"
+      min: 0
+      max: 1
+    - unit: "ng/ml"
+      min: 0
+      max: 1000
+

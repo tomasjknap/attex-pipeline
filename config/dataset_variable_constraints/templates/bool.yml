@@ -1,0 +1,10 @@
+# Boolean value
+name: ""
+description: ""
+type: bool
+min_amount: 1
+max_amount: 1
+separator: ";"
+edge_cases: []
+constraints:
+  is: True # or False

@@ -1,0 +1,12 @@
+# String matched by regex
+name: "lawBroken"
+description: "Legal provision violated"
+type: string
+min_amount: 1
+max_amount: 2
+separator: ";"
+edge_cases: ["nan"]
+constraints:
+  min_length: 2
+  max_length: 100
+  regex: "^(?=.*§).+$"

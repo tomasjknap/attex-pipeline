@@ -1,0 +1,10 @@
+# Subset of strings from defined sets
+name: "measuringMethod"
+description: "How was the substance concentration measured."
+type: subset
+min_amount: 1
+max_amount: 7
+separator: ";"
+constrains:
+  allowed_values: [breath, blood, urine]
+  unique: False

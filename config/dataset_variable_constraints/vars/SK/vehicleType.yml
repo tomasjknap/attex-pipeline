@@ -1,0 +1,10 @@
+# Subset of strings from defined sets
+name: "vehicleType"
+description: "Type of the vehicle involved in the criminal offense."
+type: subset
+min_amount: 1
+max_amount: 2
+separator: ";"
+constrains:
+  allowed_values: [car, truck, motorcycle, van, bus, other]
+  unique: False
