@@ -3,6 +3,7 @@
 Code and supplementary materials for the paper:
 
 **Unlocking Criminal Court Decisions: Flexible Information Extraction for Empirical Legal Research**
+
 Tomáš Knap, Ivana Kvapilíková, Jan Černý, Klára Bendová, Jaromír Šavelka, Vojtěch Pour, Jakub Drápal
 JURIX 2026 — 39th International Conference on Legal Knowledge and Information Systems
 
