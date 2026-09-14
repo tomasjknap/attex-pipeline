@@ -10,7 +10,7 @@ in the paper are abbreviated here:
 
 | File | Rows | What it is |
 |------|------|------------|
-| `initial_attributes.json` | — | Minimal seed schema (one attribute) handed to attribute exploration when no expert schema is given. |
+| `initial_attributes.json` |Minimal seed schema (one attribute) handed to attribute exploration when no expert schema is given. |
 | `dui_attribute_schema.json` | — | Attribute schema for DUI: per attribute a description, cardinality and value format. |
 | `ddb_attribute_schema.json` | — | Attribute schema for DDB, same structure. |
 | `ddb_annotation_manual.json` | — | Annotation manual for DDB — the shared specification used both by human annotators and by the extraction prompts. |
