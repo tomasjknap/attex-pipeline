@@ -10,14 +10,6 @@ Code and supplementary materials for the paper:
 ## Pipeline
 
 The pipeline has three LLM stages, driven by one annotation manual (= extraction schema).
-Stage numbers match Figure 2 in the paper.
-
-| # | Stage | Script | In → Out |
-|---|-------|--------|----------|
-| 1 | **Attribute exploration** — induces a schema from the corpus in fixed-size batches, proposing candidate attributes from residual information | `src/a_attribute_explorer.py` | factual statements + initial attributes → attribute schema |
-| 2 | **Span extraction** — locates supporting evidence, aligns it with the source and wraps it in `<span id="s1">…</span>` tags | `src/d_dataset_builder.py` | factual statements + schema → spans + values |
-| 3 | **Value normalization** — derives value types, formats, normalization rules and category sets from observed values | `src/c_semantic_normalizer.py` | spans + schema → enriched schema |
-|   | *Format validation* — checks a built dataset against declared variable constraints | `src/e_format_validator.py` | dataset + constraints → violation report |
 
 <img width="3844" height="2222" alt="pipeline-fig" src="https://github.com/user-attachments/assets/90cea75d-ecc4-47b9-93de-687d1869140e" />
 
