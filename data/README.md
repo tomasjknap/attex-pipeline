@@ -5,7 +5,7 @@
 | `initial_attributes.json` | Minimal seed schema (one attribute) handed to attribute exploration when no expert schema is given. |
 | `dui_attribute_schema.json` | Attribute schema for DUI: per attribute a description, cardinality and value format. |
 | `ddb_attribute_schema.json` | Attribute schema for DDB, same structure. |
-| `ddb_annotation_manual.json` | Annotation manual for DDB — the shared specification used both by human annotators and by the extraction prompts. |
+| `ddb_annotation_manual.json` | Annotation manual for DDB - the shared specification used both by human annotators and by the extraction prompts. |
 | `dui_dev_sample.csv` | Development sample of DUI factual sentences, with the conduct-based category column (`judgement_model_short`) used by `--category`. |
 | `dui_test_set.csv` | The 200 sampled DUI factual sentences used in the experiments. |
 | `ddb_test_set.csv` | The 200 sampled DDB factual sentences used in the experiments. |
