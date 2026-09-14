@@ -7,7 +7,8 @@ Code and supplementary materials for the paper **Unlocking Criminal Court Decisi
 
 The pipeline has three LLM stages, driven by one annotation manual (= extraction schema).
 
-<img width="3844" height="2222" alt="pipeline-fig" src="https://github.com/user-attachments/assets/90cea75d-ecc4-47b9-93de-687d1869140e" />
+<img width="3844" height="2222" alt="attex-fig1_fin" src="https://github.com/user-attachments/assets/cc28b16d-d867-4b87-9423-a7a502333f75" />
+
 
 
 ## Install
