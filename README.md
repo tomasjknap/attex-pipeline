@@ -116,16 +116,6 @@ data/          annotation manuals, attribute schemas and evaluation samples — 
 docs/          per-stage notes
 ```
 
-## Scope
-
-This repository contains the extraction pipeline, the prompts and the schemas/manuals used
-in the paper. It does **not** contain the annotation interface used for the human reference
-annotations (INCEpTION), the desktop annotation application built on top of this pipeline,
-or scripts that recompute the agreement and accuracy numbers in Tables 1–3 — those were
-produced from the curated reference annotations and are reported in the paper.
-
-The full corpus of Slovak judgments is not redistributed here; see `data/README.md`.
-
 ## Citation
 
 ```bibtex
