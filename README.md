@@ -1,18 +1,11 @@
-# AttEx — Flexible Attribute Extraction from Criminal Court Decisions
+# ATTEX - Flexible Attribute Extraction from Criminal Court Decisions
 
-Companion code and data for the paper:
+Code and supplementary materials for the paper:
 
 > **Unlocking Criminal Court Decisions: Flexible Information Extraction for Empirical Legal Research**
 > Tomáš Knap, Ivana Kvapilíková, Jan Černý, Klára Bendová, Jaromír Šavelka, Vojtěch Pour, Jakub Drápal
 > JURIX 2026 — 39th International Conference on Legal Knowledge and Information Systems
 
-Criminal verdicts describe criminal behaviour in free text. Turning those descriptions into
-data a legal researcher can analyse requires an attribute set and extraction rules that
-cannot be fully specified in advance. **AttEx** is a pipeline that develops both *through*
-corpus exploration, with a human-readable annotation manual as the shared specification for
-human annotators and for the LLM.
-
-**Project page:** <https://tomasjknap.github.io/attex-pipeline/>
 
 ## Pipeline
 
@@ -26,9 +19,8 @@ Stage numbers match Figure 2 in the paper.
 | 3 | **Value normalization** — derives value types, formats, normalization rules and category sets from observed values | `src/c_semantic_normalizer.py` | spans + schema → enriched schema |
 |   | *Format validation* — checks a built dataset against declared variable constraints | `src/e_format_validator.py` | dataset + constraints → violation report |
 
-Stages 2 and 3 are iterated: the researcher inspects extracted values and supporting spans,
-revises the manual, and the accepted manual regenerates annotations across the corpus
-(revision cycle B in Figure 2).
+<img width="3844" height="2222" alt="pipeline-fig" src="https://github.com/user-attachments/assets/90cea75d-ecc4-47b9-93de-687d1869140e" />
+
 
 ## Install
 
