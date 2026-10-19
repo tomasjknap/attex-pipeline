@@ -1,0 +1,137 @@
+{
+  "dateOfOffense": {
+    "description": "Date when the defendant performed the prohibited activity (typically driving a motor vehicle). If the judgment describes the prohibited activity on several distinct dates, annotate each date separately.",
+    "cardinality": "multiple",
+    "format": "DD.MM.YYYY"
+  },
+  "timeOfOffense": {
+    "description": "Time when the defendant performed the prohibited activity. May contain a specific time or a time range.",
+    "cardinality": "single",
+    "format": "HH:MM–HH:MM or HH:MM (24-hour time, ranges with optional 'from/to' text stripped)"
+  },
+  "placeOfOffense": {
+    "description": "Location where the prohibited activity was performed or where the defendant was stopped and checked. Includes information about the type of road, municipality, city, district, or other relevant location details, if available.",
+    "cardinality": "single"
+  },
+  "vehicleType": {
+    "description": "Type of vehicle operated by the defendant during the prohibited activity (e.g., passenger car, van/truck, bus, motorcycle, agricultural vehicle, other).",
+    "cardinality": "single",
+    "categories": {
+      "car": "Passenger car",
+      "van_truck": "Van, light commercial vehicle, truck, or heavy goods vehicle",
+      "bus": "Bus",
+      "motorcycle": "Motorcycle",
+      "agricultural_vehicle": "Agricultural vehicle, including tractor or similar farm vehicle",
+      "other": "Other type of vehicle"
+    }
+  },
+  "reasonForCheck": {
+    "description": "Reason for the traffic stop or police control, if stated in the judgment (e.g., speeding, traffic violation, routine inspection, report from another person, accident, not specified).",
+    "cardinality": "single",
+    "categories": {
+      "traffic_accident": "Check initiated due to a traffic accident",
+      "speeding": "Vehicle stopped due to speeding",
+      "traffic_violation": "Other traffic violation",
+      "suspected_intoxication": "Police suspected intoxication",
+      "traffic_check": "Routine traffic control",
+      "other": "Other reason for the check"
+    }
+  },
+  "additionalTrafficViolations": {
+    "description": "Any additional traffic offenses or violations committed in connection with the prohibited activity, excluding the core offense of driving despite the driving ban or prohibition itself. Examples include driving under the influence, causing an accident, speeding, failure to comply with traffic rules, or other related misconduct.",
+    "cardinality": "multiple",
+    "categories": {
+      "no_driving_license": "Driving without being a holder of a valid driving license",
+      "no_documents": "Driving without required vehicle or personal documents (license, registration, etc.)",
+      "speeding": "Exceeding the maximum permitted speed",
+      "drunk_driving": "Driving under the influence of alcohol or other addictive substances",
+      "refusal_of_intoxication_test": "Refusing to undergo a breath, blood, or other test for alcohol or other addictive substances",
+      "seatbelt_violation": "Not using a seatbelt",
+      "traffic_sign_violation": "Disregarding traffic signs or road markings (e.g., stop sign, wrong way, solid line)",
+      "vehicle_technical_issue": "Vehicle without valid technical/emission inspection or with technical faults",
+      "lights_violation": "Driving with improper or missing vehicle lighting",
+      "failure_to_stop_for_authorities": "Not stopping or trying to escape when ordered by police/customs",
+      "other_traffic_offense": "Other or unspecified traffic infractions or administrative offenses"
+    }
+  },
+  "issuingAuthority": {
+    "description": "Name of the authority that issued the decision",
+    "cardinality": "multiple"
+  },
+  "decisionIssueDate": {
+    "description": "Date on which the decision imposing the driving ban or prohibition was issued by the authority. Multiple values per sentence are allowed; the final dataset will include every value.",
+    "cardinality": "multiple",
+    "format": "DD.MM.YYYY",
+    "multivalue_policy": {
+      "mode": "keep",
+      "instruction": "",
+      "resolved": true
+    }
+  },
+  "decisionEffectiveDate": {
+    "description": "Date on which the decision imposing the driving ban or prohibition became legally effective or entered into force. Multiple values per sentence are allowed; the final dataset will include every value.",
+    "cardinality": "multiple",
+    "format": "DD.MM.YYYY",
+    "multivalue_policy": {
+      "mode": "keep",
+      "instruction": "",
+      "resolved": true
+    }
+  },
+  "drivingBanDuration": {
+    "description": "Duration of the imposed driving ban or prohibition. May be expressed as a period of time or as an end date until which the prohibition applies. Multiple values per sentence are allowed; the final dataset will include every value.",
+    "cardinality": "multiple",
+    "format": "[integer] [time_unit_in_english] | [date] | [date_range] | 'lifetime'",
+    "multivalue_policy": {
+      "mode": "keep",
+      "instruction": "",
+      "resolved": true
+    }
+  },
+  "decisionReferenceNumber": {
+    "description": "Reference number of the decision imposing the driving ban or prohibition, including case number, file number, registration number, or other official identifier.",
+    "cardinality": "single"
+  },
+  "vehicleMakeAndModel": {
+    "description": "Brand and specific model of the vehicle involved (e.g., Škoda Superb, Škoda Octavia, Hyundai i20, VW Golf, Seat Inca, Mitsubishi Colt).",
+    "cardinality": "single"
+  },
+  "vehicleLicensePlate": {
+    "description": "Full or partially anonymized registration / license plate number of the vehicle (e.g., Q.-XXXEU, T.-XXXBC, PP419EE, HC-XXX-AL, I.-XXXEP).",
+    "cardinality": "single"
+  },
+  "vehicleColor": {
+    "description": "Color or color description of the vehicle (e.g., grey dark metallic, silver).",
+    "cardinality": "single",
+    "categories": {
+      "white": "White colored vehicle, including white metallic",
+      "black": "Black colored vehicle, including black metallic",
+      "silver": "Silver/grey colored vehicle, including silver metallic",
+      "blue": "Blue colored vehicle, including blue metallic",
+      "red": "Red colored vehicle, including dark red and red metallic",
+      "green": "Green colored vehicle, including dark green and green metallic",
+      "brown": "Brown colored vehicle, including brown metallic",
+      "yellow": "Yellow colored vehicle",
+      "other": "Vehicle color that does not fit standard basic color categories"
+    }
+  },
+  "policeUnitType": {
+    "description": "Type or designation of the police unit conducting the stop or control (e.g., district police department, traffic inspectorate, emergency motorized unit). If the control was conducted by municipal/city police, customs officers, or another non-Police Force authority, use other_police_unit unless a more specific Police Force unit from the listed categories is also named.",
+    "cardinality": "single",
+    "categories": {
+      "district_police_department": "Obvodné oddelenie PZ (district police department units, incl. motorized patrols from these units)",
+      "traffic_police_department": "Okresný/Krajský dopravný inšpektorát and related traffic inspectorate units",
+      "highway_police_department": "Diaľničné oddelenie PZ (highway police units)",
+      "emergency_motorized_unit": "Pohotovostná motorizovaná jednotka (PMJ) and its patrols",
+      "railway_police_department": "Oddelenie železničnej polície PZ (railway police)",
+      "police_headquarters_special_unit": "Prezídium PZ and other special/control units under HQ (e.g. special traffic control)",
+      "generic_police_patrol": "Unspecified police patrol or generic police unit reference",
+      "other_police_unit": "Other or composite/unclear police units not fitting the above, including municipal/city police, customs officers, or other non-Police Force authorities"
+    }
+  },
+  "policeUnitLocation": {
+    "description": "Geographical location of the police unit or department (e.g., Obvodné oddelenie PZ Piešťany, Dunajská Streda, Pov. Bystrica, Levoča, Veľký Krtíš, Trenčín, Šaštín-Stráže).",
+    "cardinality": "single",
+    "format": "[municipality or district name in canonical nominative form]"
+  }
+}

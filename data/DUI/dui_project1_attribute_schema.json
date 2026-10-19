@@ -1,0 +1,306 @@
+{
+  "dateOfOffense": {
+    "description": "Date on which the offense (driving) took place. Excludes dates of measurement, testing, or the judgment itself. Annotate only the bare date, not surrounding words like \"dňa\"/\"v deň\". Anonymized dates (XX.XX.XXXX) are annotated the same way. Multiple dates in one sentence are annotated separately.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"dňa 13.05.2021 v čase 10.30 h\" -> 13.05.2021",
+        "\"dňa XX.XX.XXXX\" -> XX.XX.XXXX (anonymization kept)",
+        "\"dňa 01.01.2022 a 02.01.2022\" -> 01.01.2022, 02.01.2022 (two separate annotations)"
+      ],
+      "incorrect": [
+        "\"dňa 13.05.2021 v čase 10.30 h\" -> dňa 13.05.2021 v čase (includes \"dňa ... v čase\")",
+        "\"dňa XX.XX.XXXX\" -> (left unannotated; anonymization omitted)",
+        "\"dňa 01.01.2022 a 02.01.2022\" -> dňa 01.01.2022 a 02.01.2022 (both dates as one span)"
+      ]
+    }
+  },
+  "timeOfOffense": {
+    "description": "Clock time at which the offense (driving) took place, distinct from measuringTime. Anonymized times (XX:XX) are annotated the same way; multiple times are annotated separately. Note: in this manual version, the preposition \"pred\" is kept as part of the span when present (unlike other manual versions, which exclude it).",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"v čase 03:50 h viedol vozidlo\" -> 03:50",
+        "\"v čase pred 06:47 hod.\" -> pred 06:47 (\"pred\" is kept)",
+        "\"okolo XX:XX h\" -> XX:XX"
+      ],
+      "incorrect": [
+        "\"v čase 03:50 h viedol vozidlo\" -> v čase 03:50 h viedol (includes surrounding words)",
+        "\"v čase pred 06:47 hod.\" -> 06:47 (dropping \"pred\" is the wrong answer in this manual version)",
+        "\"okolo XX:XX h\" -> (left unannotated)"
+      ]
+    }
+  },
+  "placeOfOffense": {
+    "description": "Name of the municipality or town where the offense took place. Excludes surrounding phrases like \"v meste\"/\"na území obce\". If anonymized (e.g. \"v obci X.\"), annotate at least the letter and period.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"v meste Zvolen\" -> Zvolen",
+        "\"v obci X.\" -> X.",
+        "\"na území mesta Bratislava\" -> Bratislava"
+      ],
+      "incorrect": [
+        "\"v meste Zvolen\" -> v meste Zvolen (includes \"v meste\")",
+        "\"v obci X.\" -> (left unannotated)",
+        "\"na území mesta Bratislava\" -> na území mesta Bratislava (includes \"na území mesta\")"
+      ]
+    }
+  },
+  "typeOfRoad": {
+    "description": "Type of road/communication where the offense took place. The span typically appears in expressions like \"na ceste I. triedy\", \"v obci\", \"na diaľnici\"; annotate each type separately if more than one is mentioned. Must also be assigned a standardized category (urban / class_I / class_II / class_III / motorway / other).",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"na ceste I. triedy\" -> ceste I. triedy"
+      ],
+      "incorrect": [
+        "\"na ceste I. triedy\" -> na ceste I. triedy (includes \"na\")",
+        "\"na diaľnici D1\" -> D1 (drops \"diaľnici\", keeping only the route number)"
+      ]
+    },
+    "categories": {
+      "class_I": "",
+      "class_II": "",
+      "class_III": "",
+      "motorway": "",
+      "other": "",
+      "urban": ""
+    }
+  },
+  "placeDetails": {
+    "description": "Specific detail refining placeOfOffense (e.g. parking lot, intersection), such as the \"na parkovisku pred obchodom Lidl\" part of \"v meste Žilina, na parkovisku pred obchodom Lidl\". Always annotate when it relates to the place of the offense, not the place of measurement.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"na parkovisku pred obchodom Lidl\" -> parkovisku pred obchodom Lidl",
+        "\"na hlavnej križovatke\" -> hlavnej križovatke"
+      ],
+      "incorrect": [
+        "\"na parkovisku pred obchodom Lidl\" -> parkovisku (too short, drops \"pred obchodom Lidl\")",
+        "\"na hlavnej križovatke\" -> na hlavnej križovatke (whole phrase including \"na\")"
+      ]
+    }
+  },
+  "substanceUsed": {
+    "description": "Concrete name of the intoxicating substance in the text (e.g. alkohol, metamfetamín, cannabis). Annotate each substance separately when more than one is mentioned. Must also be assigned a standardized category.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"po požití alkoholu\" -> alkoholu",
+        "\"po užití metamfetamínu a amfetamínu\" -> metamfetamínu, amfetamínu (two separate annotations)",
+        "\"pod vplyvom psychotropnej látky\" -> psychotropnej látky (only when not specified more precisely)"
+      ],
+      "incorrect": [
+        "\"po požití alkoholu\" -> (left unannotated)",
+        "\"po užití metamfetamínu a amfetamínu\" -> metamfetamínu a amfetamínu (both substances as one span)",
+        "\"pod vplyvom psychotropnej látky\" -> (omitted, even though it is the only substance mention available)"
+      ]
+    },
+    "categories": {
+      "alcohol": "",
+      "amphetamine": "",
+      "benzodiazepine": "",
+      "cannabis": "",
+      "mdma": "",
+      "methamphetamine": "",
+      "other": ""
+    }
+  },
+  "amountUsed": {
+    "description": "Concrete measured value(s) of the substance, including the unit. Annotate each value separately. A parenthetical conversion to promile that sometimes follows the measured value is excluded from the annotation.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"namerané hodnoty 0.64 mg/l; 0.55 mg/l; 0.54 mg/l\" -> 0.64 mg/l, 0.55 mg/l, 0.54 mg/l (three separate annotations)",
+        "\"hodnota 2.15 mg/l\" -> 2.15 mg/l"
+      ],
+      "incorrect": [
+        "\"namerané hodnoty 0.64 mg/l; 0.55 mg/l; 0.54 mg/l\" -> 0.64 mg/l, 0.55 mg/l, 0.54 mg/l as a single span",
+        "\"hodnota 2.15 mg/l\" -> 2.15 (unit dropped)"
+      ]
+    }
+  },
+  "measuringMethod": {
+    "description": "Name of the method by which the presence of the substance was determined (e.g. dychová skúška, krvná vzorka), excluding device names (see measuringDevice). Annotate each method separately if more than one is mentioned. Must also be assigned a standardized category; check the n/a category if the substance was measured but the method is not stated.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"podrobil sa dychovej skúške\" -> dychovej skúške"
+      ],
+      "incorrect": [
+        "\"podrobil sa dychovej skúške\" -> podrobil sa dychovej skúške (includes \"podrobil sa\")",
+        "\"vzorka krvi\" -> vzorka krvi odobratá políciou (includes the whole surrounding phrase instead of just \"krvi\")"
+      ]
+    },
+    "categories": {
+      "blood": "",
+      "breath": "",
+      "other": "",
+      "urine": ""
+    }
+  },
+  "measuringDevice": {
+    "description": "Full name of the device used to measure the substance, including its numeric designation. Excludes additions like \"výrobné číslo…\". Annotate each device separately if more than one is mentioned.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"zariadením AlcoQuant 6020 plus\" -> AlcoQuant 6020 plus",
+        "\"prístrojom Dräger 7510\" -> Dräger 7510"
+      ],
+      "incorrect": [
+        "\"zariadením AlcoQuant 6020 plus\" -> zariadením AlcoQuant 6020 plus (includes \"zariadením\")",
+        "\"prístrojom Dräger 7510\" -> Dräger (drops the model number)"
+      ]
+    }
+  },
+  "measuringTime": {
+    "description": "Time at which the measurement was performed, excluding accompanying words like \"o\"/\"v čase\" and distinct from timeOfOffense. Annotate each time separately if more than one is mentioned.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"meranie prebehlo o 10:30 h\" -> 10:30",
+        "\"vykonané v časoch 23:45; 00:45\" -> 23:45, 00:45 (two separate annotations)"
+      ],
+      "incorrect": [
+        "\"meranie prebehlo o 10:30 h\" -> o 10:30 h (includes \"o\")",
+        "\"vykonané v časoch 23:45; 00:45\" -> 23:45; 00:45 as a single span"
+      ]
+    }
+  },
+  "refusedTesting": {
+    "description": "Text confirming whether the offender refused or complied with testing. Unlike other manual versions, this attribute is annotated in both cases: if the person underwent the test, annotate the text confirming that and select the False category; if they refused, select True. Must be assigned a standardized category (True/False).",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"vodič sa odmietol podrobiť dychovej skúške\" -> odmietol (category: True)",
+        "\"vodič sa nepodrobil lekárskemu vyšetreniu\" -> nepodrobil (category: True)",
+        "\"vodič sa podrobil dychovej skúške\" -> podrobil (category: False)"
+      ],
+      "incorrect": [
+        "\"vodič sa odmietol podrobiť dychovej skúške\" -> vodič sa odmietol podrobiť dychovej skúške (whole phrase)",
+        "\"vodič sa nepodrobil lekárskemu vyšetreniu\" -> (left unannotated)",
+        "\"vodič sa podrobil dychovej skúške\" -> (left unannotated, even though compliance should still be annotated as False)"
+      ]
+    },
+    "categories": {
+      "True": "",
+      "False": ""
+    }
+  },
+  "vehicleType": {
+    "description": "Name of the vehicle type only: osobné motorové vozidlo, nákladné vozidlo, autobus, motocykel. If a specific make is given alongside the type (e.g. \"osobným autom značky Škoda Octavia\"), annotate only the type here; the make/model goes in vehicleModel. Anonymized vehicles are annotated the same way. Must also be assigned a standardized category; determining it may require looking up the specific vehicle model.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"viedol osobné motorové vozidlo\" -> osobné motorové vozidlo",
+        "\"viedol nákladné vozidlo\" -> nákladné vozidlo",
+        "\"viedol autobus\" -> autobus"
+      ],
+      "incorrect": [
+        "\"viedol osobné motorové vozidlo\" -> viedol osobné motorové vozidlo Škoda Octavia (includes verb and model)",
+        "\"viedol nákladné vozidlo\" -> vozidlo (drops \"nákladné\")",
+        "\"viedol autobus\" -> viedol autobus (includes the verb)"
+      ]
+    },
+    "categories": {
+      "bus": "",
+      "car": "",
+      "motorcycle": "",
+      "other": "",
+      "truck": "",
+      "van": ""
+    }
+  },
+  "vehicleModel": {
+    "description": "Full brand and model name of the vehicle, when present in the text. Anonymized values (e.g. \"XXX\", \"VW XXX\") are annotated for data consistency. Excludes additions like \"vozidlo značky\" or \"zn.\" — only the name itself.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"vozidlo značky Škoda Octavia\" -> Škoda Octavia",
+        "\"vozidlo zn. VW Golf\" -> VW Golf",
+        "\"vozidlo zn. XXX\" -> XXX"
+      ],
+      "incorrect": [
+        "\"vozidlo značky Škoda Octavia\" -> vozidlo značky Škoda Octavia (includes \"vozidlo značky\")",
+        "\"vozidlo zn. VW Golf\" -> VW (drops \"Golf\")",
+        "\"vozidlo zn. XXX\" -> (left unannotated)"
+      ]
+    }
+  },
+  "licenseStatus": {
+    "description": "Text describing the offender's driving-license status (e.g. \"platný vodičský preukaz\", \"zákaz činnosti\"); if the text states the offender did not hold a license (\"bez vodičského oprávnenia\"), annotate that too. Excludes mentions of the license being seized after the offense — only the status at the time of the offense counts. Must also be assigned a standardized category (valid / banned / none).",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"mal platný vodičský preukaz\" -> platný vodičský preukaz",
+        "\"v čase skutku mal uložený zákaz činnosti\" -> zákaz činnosti",
+        "\"viedol vozidlo bez vodičského oprávnenia\" -> bez vodičského oprávnenia"
+      ],
+      "incorrect": [
+        "\"mal platný vodičský preukaz\" -> vodičský preukaz (drops \"platný\")",
+        "\"v čase skutku mal uložený zákaz činnosti\" -> v čase skutku mal uložený zákaz činnosti (whole phrase)",
+        "\"viedol vozidlo bez vodičského oprávnenia\" -> (left unannotated)"
+      ]
+    },
+    "categories": {
+      "banned": "",
+      "none": "",
+      "valid": ""
+    }
+  },
+  "checkedBy": {
+    "description": "Full name of the police unit/authority that carried out the stop or check. Annotate each unit separately if more than one is mentioned. Do not annotate the generic word \"polícia\" without further specification.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"kontrolovaný hliadkou ODI OR PZ Veľký Krtíš\" -> hliadkou ODI OR PZ Veľký Krtíš",
+        "\"kontrolovaný OO PZ Čadca\" -> OO PZ Čadca"
+      ],
+      "incorrect": [
+        "\"kontrolovaný hliadkou ODI OR PZ Veľký Krtíš\" -> kontrolovaný hliadkou ODI OR PZ Veľký Krtíš (includes \"kontrolovaný\")",
+        "\"kontrolovaný OO PZ Čadca\" -> polícia (too generic, no specific unit)"
+      ]
+    }
+  },
+  "reasonForCheck": {
+    "description": "Free-text description of the reason the driver was stopped or checked, e.g. a description of the driver's behavior (\"pre jazdu v protismere\", \"po dopravnej nehode\") or, for an unexplained stop, the phrase \"bežná kontrola\". Must also be assigned a standardized category; use \"other\" only when the reason is clearly stated but does not fit any other category.",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"bol zastavený pri bežnej kontrole\" -> pri bežnej kontrole",
+        "\"bol kontrolovaný po dopravnej nehode\" -> po dopravnej nehode",
+        "\"zastavený pre podozrenie z požitia alkoholu\" -> pre podozrenie z požitia alkoholu"
+      ],
+      "incorrect": [
+        "\"bol zastavený pri bežnej kontrole\" -> bol zastavený pri bežnej kontrole (whole sentence)",
+        "\"bol kontrolovaný po dopravnej nehode\" -> nehode (too short, drops \"po dopravnej\")",
+        "\"zastavený pre podozrenie z požitia alkoholu\" -> podozrenie (too short, drops the rest)"
+      ]
+    },
+    "categories": {
+      "other": "",
+      "speeding": "",
+      "suspected_intoxication": "",
+      "traffic_accident": "",
+      "traffic_check": "",
+      "traffic_violation": ""
+    }
+  },
+  "lawBroken": {
+    "description": "The specific legal provision violated, including the name of the law, or a verbal description of the offense (e.g. \"§ 289 TZ\", \"§ 289 ods. 1 Trestného zákona\", \"prečin ohrozenia pod vplyvom návykovej látky\"). Annotate each paragraph separately if more than one is mentioned. Excludes purely procedural provisions (e.g. \"§ 2 ods. 10 Tr. por.\").",
+    "cardinality": "multiple",
+    "examples": {
+      "correct": [
+        "\"dopustil sa prečinu podľa § 289 ods. 1 Trestného zákona\" -> § 289 ods. 1 Trestného zákona",
+        "\"prečin ohrozenia pod vplyvom návykovej látky\" -> ohrozenia pod vplyvom návykovej látky",
+        "\"porušil ustanovenie § 4 ods. 2 písm. a) zákona o cestnej premávke\" -> § 4 ods. 2 písm. a) Zákona o cestnej premávke"
+      ],
+      "incorrect": [
+        "\"dopustil sa prečinu podľa § 289 ods. 1 Trestného zákona\" -> prečinu podľa § 289 ods. 1 Trestného zákona (includes \"prečinu podľa\")",
+        "\"prečin ohrozenia pod vplyvom návykovej látky\" -> prečin (too short, drops the rest)",
+        "\"porušil ustanovenie § 4 ods. 2 písm. a) zákona o cestnej premávke\" -> porušil ustanovenie § 4 ods. 2 písm. a) zákona o cestnej premávke (whole sentence)"
+      ]
+    }
+  }
+}
