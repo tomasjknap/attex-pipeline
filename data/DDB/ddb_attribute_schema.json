@@ -1,0 +1,102 @@
+{
+  "dateOfOffense": {
+    "description": "The day the offender committed the prohibited act (driving despite a ban). If multiple dates are given, use the first one.",
+    "cardinality": "single",
+    "format": "DD.MM.YYYY, or DD.MM.YYYY-DD.MM.YYYY for a range. ANONYMIZED if the date is anonymized. NOT_PRESENT if not stated."
+  },
+  "timeOfOffense": {
+    "description": "The time the offender committed the prohibited act. If multiple times are given, use the first one.",
+    "cardinality": "single",
+    "format": "HH:MM, or HH:MM-HH:MM for a range. ANONYMIZED if anonymized. NOT_PRESENT if not stated."
+  },
+  "placeOfOffense": {
+    "description": "Where the offender was stopped and checked. If multiple places are given, use the first one.",
+    "cardinality": "single",
+    "categories": {
+      "motorway_or_first_class_road": "A motorway or first-class road; first-class roads are typically marked I/<number>.",
+      "within_city_or_village": "The place is stated as being within a town, village, or its cadastral area, or similar.",
+      "elsewhere": "Any other place.",
+      "anonymized": "The place is anonymized.",
+      "not_present": "No place is stated."
+    }
+  },
+  "offenseMunicipality": {
+    "description": "The town or village where the offender was stopped and checked. If multiple places are given, use the first one. Write only the municipality name in the nominative case, without a preposition and without the street/road name; district subdivisions (e.g. \"Košice II\") are collapsed to just the city name.",
+    "cardinality": "single",
+    "format": "Bare municipality name. ANONYMIZED if anonymized. NOT_PRESENT if not stated.",
+    "examples": {
+      "correct": [
+        "\"v meste Šaľa na ul. Kráľovskej\" -> Šaľa",
+        "\"Košice II\" -> Košice"
+      ]
+    }
+  },
+  "vehicleType": {
+    "description": "The type of vehicle the offender was driving. If multiple types are given, use the first one. Select exactly one category.",
+    "cardinality": "single",
+    "categories": {
+      "car": "Personal automobile (osobní automobil).",
+      "van": "Van or light utility vehicle (dodávka / lehké užitkové vozidlo).",
+      "truck": "Cargo/freight vehicle (nákladní vozidlo).",
+      "bus": "Bus (autobus).",
+      "motorcycle": "Motorcycle (motocykl).",
+      "other": "Any other motor vehicle, or one that cannot be reliably classified into the above categories.",
+      "anonymized": "The vehicle type is anonymized.",
+      "not_present": "No vehicle type is stated."
+    }
+  },
+  "additionalTrafficViolation": {
+    "description": "Other traffic offenses or violations of road-traffic rules the offender committed in connection with the act. Select all categories that apply (not just one).",
+    "cardinality": "multiple",
+    "categories": {
+      "vehicle_condition": "A problem with the state/condition of the vehicle.",
+      "road_rule_violation": "A violation of road-traffic rules.",
+      "failure_to_stop_or_evade": "Failing to stop, fleeing, or evading a check.",
+      "alcohol_related": "Alcohol, or a related breath/alcohol test.",
+      "not_present": "No additional violation is stated."
+    }
+  },
+  "issuingAuthorityType": {
+    "description": "The type of authority that imposed the driving ban or other restriction. If multiple authorities are given, use the first one.",
+    "cardinality": "single",
+    "categories": {
+      "court": "Court (soud).",
+      "police_authority": "Police, district police directorate, traffic inspectorate, or other police authority.",
+      "administrative_authority": "Another administrative authority.",
+      "other": "Other.",
+      "anonymized": "The authority is anonymized.",
+      "not_present": "No authority is stated."
+    }
+  },
+  "issuingAuthorityLocation": {
+    "description": "The location where the authority that issued the original ban decision is seated. If multiple places are given, use the first one. Write only the municipality name in the nominative case, without a preposition; district subdivisions (e.g. \"Košice II\") are collapsed to just the city name.",
+    "cardinality": "single",
+    "format": "Bare municipality name. ANONYMIZED if anonymized. NOT_PRESENT if not stated.",
+    "examples": {
+      "correct": [
+        "\"v Košiciach\" -> Košice"
+      ]
+    }
+  },
+  "decisionIssueDate": {
+    "description": "The date the decision imposing the ban or other restriction was issued. If multiple decision dates are given, use the first one.",
+    "cardinality": "single",
+    "format": "DD.MM.YYYY. ANONYMIZED if anonymized. NOT_PRESENT if not stated."
+  },
+  "decisionEffectiveDate": {
+    "description": "The date the decision took legal effect / became final. If multiple relevant dates are given, use the first relevant one.",
+    "cardinality": "single",
+    "format": "A single date, DD.MM.YYYY. ANONYMIZED if anonymized. NOT_PRESENT if not stated."
+  },
+  "drivingBanDuration": {
+    "description": "The period for which the driving ban was imposed. If multiple bans are given, use the one that expires latest (not necessarily the first one stated).",
+    "cardinality": "single",
+    "format": "The duration written in English, lowercase, with the same unit used in the source sentence (do not convert units), e.g. Slovak \"36 mesiacov\" -> \"36 months\", \"3 roky\" -> \"3 years\". If no duration is stated but an end date is, write only the end date as DD.MM.YYYY; the same applies if a date range is given. If the ban is for life, write \"lifetime\". ANONYMIZED if anonymized. NOT_PRESENT if not stated.",
+    "examples": {
+      "correct": [
+        "\"36 mesiacov\" -> 36 months",
+        "\"3 roky\" -> 3 years"
+      ]
+    }
+  }
+}

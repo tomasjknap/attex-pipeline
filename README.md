@@ -56,8 +56,8 @@ smaller batches yield more granular, often case-specific attributes.
 
 ```bash
 uv run src/d_dataset_builder.py \
-  --input data/dui_test_set.csv \
-  --attribute-schema data/dui_attribute_schema.json \
+  --input data/DUI/dui_test_set.csv \
+  --attribute-schema data/DUI/dui_project2_attribute_schema.json \
   --output dui_extracted.csv \
   --provider openai --model gpt-5.6-terra \
   --method extract_spans_and_values \
@@ -73,8 +73,8 @@ uv run src/d_dataset_builder.py \
 
 ```bash
 uv run src/c_semantic_normalizer.py \
-  --input data/ddb_spans_and_values.csv \
-  --attribute-schema data/ddb_attribute_schema.json \
+  --input data/DDB/ddb_spans_and_values.csv \
+  --attribute-schema data/DDB/ddb_normalization_schema.json \
   --output ddb_schema_normalized.json \
   --provider openai --model gpt-5.6-terra \
   --max-sampled-values 50 \
@@ -101,7 +101,9 @@ src/           pipeline stages (a, c, d, e) and the shared lib/ package
 config/
   prompt_templates/             prompts for each stage
   dataset_variable_constraints/ YAML variable constraints (templates + Slovak variable set)
-data/          annotation manuals, attribute schemas and evaluation samples — see data/README.md
+data/          evaluation data — see data/README.md
+  DDB/         driving despite a driving ban: manual, schema, annotations, gold standard, LLM extractions
+  DUI/         driving under the influence: the same for two annotation projects
 docs/          per-stage notes
 ```
 
