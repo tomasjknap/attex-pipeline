@@ -19,7 +19,7 @@ From the repository root:
 uv run src/d_dataset_builder.py \
   -i data/dui_dev_sample.csv \
   -o dui_extracted.csv \
-  -a data/dui_attribute_schema.json \
+  -a data/DUI/dui_project2_attribute_schema.json \
   --method extract_spans_and_values \
   -p openai \
   -m gpt-5.6-terra \
@@ -34,7 +34,7 @@ uv run src/d_dataset_builder.py \
 uv run src/d_dataset_builder.py \
   -i data/dui_dev_sample.csv \
   -o dui_extracted_sample.csv \
-  -a data/dui_attribute_schema.json \
+  -a data/DUI/dui_project2_attribute_schema.json \
   --method extract_spans_and_values \
   -p openai \
   -m gpt-5.6-terra \
